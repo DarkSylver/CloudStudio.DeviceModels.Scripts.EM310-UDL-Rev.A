@@ -1,31 +1,21 @@
-function getConfiguration(config)
-{
-  // This function allows you to indicate general configuration values
-  // for all devices of this model.
+function getConfiguration(config) {
+  // Esta función permite indicar valores de configuración generales para 
+  // todos los dispositivos de este modelo.
 
-  // Depending on the meaning of the "device address" in this device, 
-  // you may want to change the label that is used to refer to the 
-  // address in the user interface.
-  // For instance, if the address of the device is actually a MAC 
-  // address, you may want to use the code below.
-  
-  config.addressLabel = {en: "DevEUI", es: "DevEUI"};
+  // En este caso, no se necesita configurar nada a nivel general.
 }
 
-function getEndpoints(deviceAddress, endpoints)
-{
-  // This function allows you to indicate the initial endpoint configuration
-  // when a device is created using this model. This improves end-user 
-  // experience significantly, because it allows the platform to create
-  // all endpoints included in the device automatically when the device
-  // is created.
+function getEndpoints(deviceAddress, endpoints) {
+  // Esta función permite indicar la configuración inicial de los endpoints
+  // cuando se crea un dispositivo de este modelo.
 
-  // In the code below, two endpoints are created. The first is a
-  // temperature sensor, while the second one is a carbon dioxide sensor.
+  var e = endpoints.addEndpoint("1", "Batería", endpointType.genericSensor);
+  e.variableTypeId = 1401; 
 
-    endpoints.addEndpoint("1", "Battery", endpointType.voltageSensor);
-    var distance = endpoints.addEndpoint("2", "Distance", endpointType.genericSensor);
-    distance.variableTypeId = 1300;
+  var e = endpoints.addEndpoint("2", "Nivel de llenado", endpointType.genericSensor);
+  e.variableTypeId = 1382; 
+
+  endpoints.addEndpoint("3", "Temperatura", endpointType.temperatureSensor);
 }
 
 function validateDeviceAddress(address, result)
