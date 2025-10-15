@@ -1,38 +1,42 @@
 function getConfiguration(config)
 {
-  // Esta función permite indicar valores de configuración generales para 
-  // todos los dispositivos de este modelo.
+  // This function allows you to indicate general configuration values
+  // for all devices of this model.
+
+  // Depending on the meaning of the "device address" in this device, 
+  // you may want to change the label that is used to refer to the 
+  // address in the user interface.
+  // For instance, if the address of the device is actually a MAC 
+  // address, you may want to use the code below.
   
-  // Dependiendo del significado de la "dirección del dispositivo" en este 
-  // dispositivo, es posible que desee cambiar la etiqueta que se utiliza 
-  // para hacer referencia a la dirección en la interfaz de usuario.
-  // Por ejemplo, si la dirección del dispositivo es en realidad una dirección 
-  // MAC, es posible que desee utilizar el código siguiente.
-  
-  // config.addressLabel = {en: "MAC address", es: "Dirección MAC"};
+  config.addressLabel = {en: "DevEUI", es: "DevEUI"};
 }
 
 function getEndpoints(deviceAddress, endpoints)
 {
-  // Esta función le permite indicar la configuración inicial de los endpoints
-  // cuando se crea un dispositivo de este modelo. Esto mejora significativamente 
-  // la experiencia del usuario final, ya que permite a la plataforma crear 
-  // todos los endpoints incluidos en el dispositivo automáticamente cuando se 
-  // crea el dispositivo.
+  // This function allows you to indicate the initial endpoint configuration
+  // when a device is created using this model. This improves end-user 
+  // experience significantly, because it allows the platform to create
+  // all endpoints included in the device automatically when the device
+  // is created.
 
-    var p = endpoints.addEndpoint("1", "Peso", endpointType.genericSensor);
-        p.variableTypeId = 1044;
+  // In the code below, two endpoints are created. The first is a
+  // temperature sensor, while the second one is a carbon dioxide sensor.
+
+    endpoints.addEndpoint("1", "Battery", endpointType.voltageSensor);
+    var distance = endpoints.addEndpoint("2", "Distance", endpointType.genericSensor);
+    distance.variableTypeId = 1300;
 }
 
 function validateDeviceAddress(address, result)
 {
-  // Esta función permite validar la dirección de un dispositivo, cuando el usuario 
-  // lo está creando. Si el dispositivo tiene reglas de validación especiales para 
-  // la dirección, pueden verificarse aquí y devolver un mensaje de error en 
-  // caso de que el formato de la dirección sea incorrecto.
-  
-  // En el código siguiente, se realiza una validación para asegurarse de que la 
-  // dirección tiene exactamente 10 caracteres.
+  // This function allows you to validate the address of a device, when
+  // the user is creating it. If your device has special validation rules
+  // for the address, you can check them here, and return an error message
+  // in case the address format is incorrect.
+
+  // In the code below, a validation is made to ensure that the address 
+  // is exactly 10 characters long.
   
   // if (address.length != 10) {
   //   result.ok = false;
@@ -45,26 +49,27 @@ function validateDeviceAddress(address, result)
 
 function updateDeviceUIRules(device, rules)
 {
-  // Esta función permite especificar reglas de interfaz de usuario en el nivel de 
-  // dispositivo. Por ejemplo, es posible habilitar o deshabilitar la creación 
-  // de endpoints manualmente al dispositivo después de que se creó.
-
-  // En el código siguiente, el agregado manual de endpoints está deshabilitada 
-  // en la interfaz de usuario. Esto significa que el dispositivo se limitará a los 
-  // endpoints definidos por la función getEndpoints() anterior.
+  // This function allows you to specify UI rules at the device level.
+  // For instance, you can make it possible to enable or disable adding
+  // endpoints manually to the device after it was created.
+  
+  // In the code below, adding endpoints manually is disabled in the
+  // user interface. This means that the device will be limited to the 
+  // endpoints defined by function getEndpoints() above.
   
   // rules.canCreateEndpoints = false;
 }
 
 function updateEndpointUIRules(endpoint, rules)
 {
-  // Esta función permite especificar reglas de interfaz de usuario para cada
-  // endpoint del dispositivo. Por ejemplo, es posible habilitar o inhabilitar la
-  // eliminación de endpoints, o la edición de subtipo de endpoint.
+  // This function allows you to specify UI rules at the endpoint level.
+  // For instance, you can make it possible to delete certain endpoints, 
+  // or edit their endpoint subtype, if applicable.
 
-  // En el código siguiente, se definen las siguientes reglas:
-  // - Los endpoints no se pueden eliminar.
-  // - El subtipo de endpoint se puede cambiar, pero solo para el segundo endpoint.
+  // In the code below, the following rules are defined:
+  // - Endpoints cannot be deleted.
+  // - The endpoint subtype can be changed, but only for the second 
+  //   endpoint.
   
   // rules.canDelete = false;
   // rules.canEditSubType = (endpoint.address == "2");
